@@ -81,8 +81,7 @@ class TicTacToe(QWidget):
         self.t.reset()
         for i in range(self.t.n*self.t.n):
             self.buttons[i].setText(None)
-        self.t.game_running=True
-
+        
     
     def switchState(self,x,y):
         if(self.turn==0):
