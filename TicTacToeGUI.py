@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import (QWidget, QGridLayout,
-                             QPushButton, QApplication,QLabel)
+                             QPushButton, QComboBox,QApplication,QLabel)
 from tictactoe import Tictactoe
 from functools import partial
 
@@ -12,24 +12,40 @@ class TicTacToe(QWidget):
         self.initUI()
         self.text_game=QLabel('Game started')
         self.text_turn=QLabel('')
-        self.t=Tictactoe(10)
+
 
     def initUI(self):
 
         self.grid = QGridLayout()
-        self.setLayout(self.grid)
+        self.choice_text=QLabel('Choose Grid size ')
+        self.choice_text.resize(100,100)
+        self.combo = QComboBox(self)
+        self.combo.addItems([str(i) for i in range(3,10)])
         self.start_button=QPushButton('Start')
+        
+        self.setLayout(self.grid)
+        
+        self.grid.addWidget(self.choice_text)
+        self.grid.addWidget(self.combo)
         self.grid.addWidget(self.start_button)
+        
+       
+
+        
         self.start_button.clicked.connect(self.showGrid)
         self.move(0,0)
-        self.resize(600,480)
+        self.resize(800,600)
         self.setWindowTitle('Tictactoe')
         self.show()
 
 
     def showGrid(self):
-
-        self.start_button.setParent(None)
+        init_value=int(self.combo.currentText())
+        print(f"Grid with {init_value}x{init_value}")
+        self.t=Tictactoe(init_value)
+        self.start_button.deleteLater()
+        self.choice_text.deleteLater()
+        self.combo.deleteLater()
         
         self.buttons=[QPushButton('') for i in range(self.t.n*self.t.n)]
         
@@ -67,6 +83,7 @@ class TicTacToe(QWidget):
             self.buttons[i].setText(None)
         self.t.game_running=True
 
+    
     def switchState(self,x,y):
         if(self.turn==0):
             print(x*self.t.n+y)
@@ -74,7 +91,7 @@ class TicTacToe(QWidget):
             self.turn=1
             self.text_game.setText(self.t.check())
             if(self.t.game_running):
-                self.text_turn.setText(f"{self.t.p1_symbol} turn")
+                self.text_turn.setText(f"{self.t.p2_symbol} turn")
             else:
                 self.text_turn.setText("Game ended,press reset button.")
         else:
@@ -85,7 +102,7 @@ class TicTacToe(QWidget):
             self.text_game.setText(self.t.check())
             
             if(self.t.game_running):
-                self.text_turn.setText(f"{self.t.p2_symbol} turn")
+                self.text_turn.setText(f"{self.t.p1_symbol} turn")
             else:
                 self.text_turn.setText("Game ended,press reset button.")
 
@@ -93,7 +110,7 @@ class TicTacToe(QWidget):
 
 def main():
     app = QApplication(sys.argv)
-    ex = TicTacToe()
+    game = TicTacToe()
     sys.exit(app.exec_())
 
 
