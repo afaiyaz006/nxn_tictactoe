@@ -97,4 +97,5 @@ class Tictactoe:
 
     def reset(self):
         self.grid=[[None]*self.n for i in range(self.n)]
-        self.game_running=True
+        if not Tictactoe.game_running:
+            Tictactoe.game_running=True
