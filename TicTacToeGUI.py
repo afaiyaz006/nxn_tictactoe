@@ -18,16 +18,20 @@ class TicTacToe(QWidget):
 
         self.grid = QGridLayout()
         self.choice_text=QLabel('Choose Grid size ')
-        self.choice_text.resize(100,100)
+       
         self.combo = QComboBox(self)
         self.combo.addItems([str(i) for i in range(3,10)])
         self.start_button=QPushButton('Start')
+
+        self.choice_text.setFixedSize(200,50)
+        self.combo.setFixedSize(200,50)
+        self.start_button.setFixedSize(100,100)
         
         self.setLayout(self.grid)
         
-        self.grid.addWidget(self.choice_text)
-        self.grid.addWidget(self.combo)
-        self.grid.addWidget(self.start_button)
+        self.grid.addWidget(self.choice_text,0,0)
+        self.grid.addWidget(self.combo,0,1)
+        self.grid.addWidget(self.start_button,1,1)
         
        
 
